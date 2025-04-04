@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ADPD_dotNET_Project.Models.Course>
+
+@{
+    ViewData["Title"] = "Available Courses";
+}
+
+<h2 class="mt-4 mb-3">Available Courses</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-primary">
+        <tr>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Credit Hours</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.CourseName</td>
+                <td>@course.Description</td>
+                <td>@course.CreditHours</td>
+                <td>@course.StartDate.ToShortDateString()</td>
+                <td>@course.EndDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

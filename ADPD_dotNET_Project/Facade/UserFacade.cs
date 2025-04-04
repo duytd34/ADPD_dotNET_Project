@@ -16,20 +16,21 @@ namespace ADPD_dotNET_Project.Facade
         public bool RegisterUser(string username, string password, string fullName, string email)
         {
             if (_userRepository.Exists(username))
-                return false; 
+                return false;
 
             var user = new User
             {
                 Username = username,
-                Password = BCrypt.Net.BCrypt.HashPassword(password), 
+                Password = BCrypt.Net.BCrypt.HashPassword(password),
+                FullName = fullName,
                 Email = email,
-                RoleId = 1
-
+                RoleId = 3
             };
 
             _userRepository.Add(user);
-            return true; 
+            return true;
         }
+
 
         public User AuthenticateUser(string username, string password)
         {

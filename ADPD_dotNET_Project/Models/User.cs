@@ -11,7 +11,7 @@ namespace ADPD_dotNET_Project.Models
         [Required, MaxLength(100)]
         public string Username { get; set; }
 
-        [Required, MaxLength(255)]
+        [Required, MaxLength(255)] 
         public string Password { get; set; }
 
         [Required, MaxLength(255)]

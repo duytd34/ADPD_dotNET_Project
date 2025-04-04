@@ -24,6 +24,12 @@ namespace ADPD_dotNET_Project.Controllers
         [HttpPost]
         public IActionResult Register(string username, string password, string fullName, string email)
         {
+            if (string.IsNullOrWhiteSpace(fullName))
+            {
+                ViewBag.Error = "FullName cannot be empty.";
+                return View();
+            }
+
             if (_userFacade.RegisterUser(username, password, fullName, email))
             {
                 return RedirectToAction("Login");
@@ -47,29 +53,33 @@ namespace ADPD_dotNET_Project.Controllers
             var user = _userFacade.AuthenticateUser(username, password);
             if (user != null)
             {
-                _httpContextAccessor.HttpContext.Session.SetString("Username", user.Username);
-                _httpContextAccessor.HttpContext.Session.SetInt32("RoleId", (int)user.RoleId);
+                // Lưu thông tin người dùng vào session
+                HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
+
+                // Điều hướng theo Role
                 switch (user.RoleId)
                 {
-                    case 1: 
-                        return RedirectToAction("ManagerCourse", "Manager");
-                    case 2: 
-                        return RedirectToAction("Index", "Home");
-                    case 3: 
-                        return RedirectToAction("Index", "Home");
+                    case 1: // Admin
+                        return RedirectToAction("Index", "Course"); // hoặc Dashboard Admin
+                    case 3: // Student
+                        return RedirectToAction("StudentCourses", "Course"); // Giao diện sinh viên
                     default:
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Login");
                 }
             }
 
-            ViewBag.Error = "Sai tên đăng nhập hoặc mật khẩu.";
+            ViewBag.Error = "Invalid username or password";
             return View();
         }
 
+
+        [HttpPost]
         public IActionResult Logout()
         {
             _httpContextAccessor.HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "User");
         }
+
+
     }
 }
