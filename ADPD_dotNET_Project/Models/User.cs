@@ -25,4 +25,4 @@ namespace ADPD_dotNET_Project.Models
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
     }
-}
+}  

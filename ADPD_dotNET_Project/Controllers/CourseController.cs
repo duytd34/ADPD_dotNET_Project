@@ -65,5 +65,31 @@ namespace ADPD_dotNET_Project.Controllers
             var courses = _courseRepository.GetAll();
             return View("~/Views/Course/StudentCourses.cshtml", courses);
         }
+
+        public IActionResult FacultyCourses()
+        {
+            var currentUserJson = HttpContext.Session.GetString("CurrentUser");
+            if (string.IsNullOrEmpty(currentUserJson)) return RedirectToAction("Login", "User");
+
+            var user = JsonConvert.DeserializeObject<User>(currentUserJson);
+            if (user.RoleId != 2) return Forbid(); 
+
+            var courses = _courseRepository.GetAll();
+            return View("~/Views/Faculty/FacultyCourse.cshtml", courses); 
+        }
+        /*
+        public IActionResult AssignCourse()
+        {
+            var             var courses = _courseRepository.GetAll(); // Lấy danh sách tất cả các khóa học
+students = _studentRepository.GetAll(); // Lấy danh sách sinh viên từ Student Repository
+
+            var viewModel = new AssignCourseViewModel
+            {
+                Courses = courses,
+                Students = students
+            };
+
+            return View(viewModel);
+        }*/
     }
 }

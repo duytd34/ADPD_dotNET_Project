@@ -37,7 +37,7 @@ namespace ADPD_dotNET_Project.Facade
             var user = _userRepository.GetByUsername(username);
             if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                return user; 
+                return user;  
             }
             return null; 
         }

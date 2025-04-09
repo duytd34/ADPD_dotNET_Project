@@ -1,4 +1,4 @@
-namespace ADPD_dotNET_Project.Models
+    namespace ADPD_dotNET_Project.Models
 {
     public class ErrorViewModel
     {

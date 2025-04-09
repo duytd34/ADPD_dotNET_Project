@@ -54,7 +54,6 @@ namespace ADPD_dotNET_Project.Controllers
             var user = _userFacade.AuthenticateUser(username, password);
             if (user != null)
             {
-                // Lưu thông tin người dùng vào session
                 HttpContext.Session.SetString("CurrentUser", JsonConvert.SerializeObject(user));
 
                 // Điều hướng theo Role
@@ -62,11 +61,14 @@ namespace ADPD_dotNET_Project.Controllers
                 {
                     case 1: // Admin
                         return RedirectToAction("Index", "Course"); // hoặc Dashboard Admin
+                    case 2: // Course
+                        return RedirectToAction("FacultyCourse", "Faculty"); // Giao diện giảng viên
                     case 3: // Student
                         return RedirectToAction("StudentCourses", "Course"); // Giao diện sinh viên
                     default:
-                        return RedirectToAction("Login");
+                        return RedirectToAction("Login"); // Nếu không phải các vai trò trên
                 }
+
             }
 
             ViewBag.Error = "Invalid username or password";
