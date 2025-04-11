@@ -15,9 +15,6 @@ namespace ADPD_dotNET_Project.Controllers
             _courseRepository = courseRepository;
         }
 
-        // ================== ADMIN ==================
-
-        // Quản lý khóa học (chỉ Admin)
         public IActionResult Index()
         {
             var currentUserJson = HttpContext.Session.GetString("CurrentUser");
